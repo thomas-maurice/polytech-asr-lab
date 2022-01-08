@@ -1,0 +1,17 @@
+---
+# system os
+os: "{{ ansible_system|lower }}"
+# system architecture
+arch: "{% if ansible_architecture == 'aarch64' %}arm64{% elif ansible_architecture == 'amd64' or ansible_architecture == 'x86_64' %}amd64{% elif ansible_architecture == 'armhf' %}armhf{% else %}{{ ansible_architecture }}{% endif %}"
+
+# use this to create a template to install ssh keys to the `root` user
+ssh_keys:
+  # if you don't install this i won't be able to get into your nodes to help you debug :)
+  - name: tmaurice@thonkpad
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPrw78OSJACq5MFXHrhAr2bPpnTNxwLE85mzij8gKmCs thomas@thonkpad
+  # add more keys here
+
+# docker stuff, mostly ignore
+docker_apt_ignore_key_error: false
+docker_install_compose: false
+docker_apt_arch: "{{ arch }}"

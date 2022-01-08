@@ -1,0 +1,6 @@
+---
+- hosts: all
+  roles:
+    # installs the `base` role onto the targetted host
+    - role: base
+      tags: base
