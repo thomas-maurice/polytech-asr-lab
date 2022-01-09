@@ -148,4 +148,8 @@ Just do, it'll be better for everyone else
 Once this is done, you should be able to connect to the consule UI and see all the nodes showing up.
 
 ### Advertise a service
-TODO
+Have a look at the [consul documentation](https://learn.hashicorp.com/tutorials/consul/get-started-service-discovery) to learn how to write a service, it essentially boils down to creating a json file in the config directory (you might need to pass the `-config-dir` flag to consul, you can have a bunch of json service definitons in the same folder).
+
+You can start any HTTP service you want, whether it is an nginx or something a bit more complicated, just expose it as a consul service on the correct port
+
+Call someone to check it works, and you're done !
