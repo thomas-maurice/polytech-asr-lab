@@ -128,7 +128,7 @@ Then you must create a configuration file for consul, which should be built off 
 }
 ```
 
-You will need to add how many bootstrap servers are needed, which IPs to join and so on and so forth to make it work.
+You will need to add how many bootstrap servers are needed, which IPs to join and so on and so forth to make it work, I would also recommend you use *templates* to get the IP you advertise on your node. This way the same playbook could be run on all the nodes and still make everyhting work. You can also alternatively set all the IPs of all the bootstrap servers in an array variable in your `host_vars`.
 
 Once this is done, pick from one of the following options:
 
