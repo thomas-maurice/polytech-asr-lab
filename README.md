@@ -88,7 +88,7 @@ You also need to ensure the file has `0600` permissions on it otherwise SSH will
 
 You will want to leave my own SSH key into the file, so I can help out with debugging.
 
-:information_source: You might want to check out the Jinja2 templating syntax
+:information_source: You might want to check out the Jinja2 templating syntax [here](https://www.juniper.net/documentation/en_US/cso5.4.0/topics/reference/general/ap-jinja-syntax-examples.html)
 
 ### Install Docker using a Docker role
 Using `ansible-galaxy`, install the Docker role (the one by [Jeff Geerling](https://galaxy.ansible.com/geerlingguy/docker) works well)
