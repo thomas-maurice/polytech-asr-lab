@@ -138,7 +138,7 @@ You will have to download the Consul binary, put it somewhere it can be executed
 :information_source: You will get bonus points for doing it because Xavier hates `systemd`.
 
 #### As a docker container
-Follow the documentation to create a docker container using ansible available [here](https://docs.ansible.com/ansible/latest/collections/community/docker/docsite/scenario_guide.html). The image you want to use for this part is the `bitnami/consul` image.
+Follow the documentation to create a docker container using ansible available [here](https://docs.ansible.com/ansible/2.5/modules/docker_container_module.html). The image you want to use for this part is the `bitnami/consul` image.
 
 :warning: to save time you can run docker in the `host` networking mode to avoid having to remap all the ports manually.
 
