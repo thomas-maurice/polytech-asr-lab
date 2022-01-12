@@ -1,0 +1,103 @@
+- name: "create the consul group"
+  group:
+    name: consul
+    state: present
+    gid: 666
+
+- name: "create the consul user"
+  user:
+    name: consul
+    comment: consul
+    group: consul
+    create_home: true
+    uid: 666
+    home: /var/lib/consul
+
+- name: "create the consul config dir"
+  file:
+    path: "/etc/consul"
+    state: directory
+    owner: consul
+    group: consul
+    mode: 0700
+
+- name: "create the consul config dir 2"
+  file:
+    path: "/etc/consul/config.d"
+    state: directory
+    owner: consul
+    group: consul
+    mode: 0700
+
+- name: "drop the config file for consul"
+  template:
+    dest: "/etc/consul/config.json"
+    src: config.json.j2
+    mode: 0600
+    owner: consul
+    group: consul
+
+- name: "drop the config file for the webserver"
+  template:
+    dest: "/etc/consul/config.d/services.json"
+    src: services.json.j2
+    mode: 0600
+    owner: consul
+    group: consul
+
+# required to install the `docker` python package needed by ansible
+- name: Install pip3
+  apt:
+    name:
+      - python3
+      - python3-pip
+    state: present
+
+- name: Install the docker pip module
+  pip:
+    name: docker
+
+- name: Create the consul container
+  docker_container:
+    name: consul
+    image: bitnami/consul
+    state: started
+    network_mode: host
+    # force restart so the config is taken into account
+    restart: true
+    user: 666
+    groups: [666]
+    command: consul agent -config-file /etc/consul/config.json -config-dir /etc/consul/config.d
+    volumes:
+      - /etc/consul:/etc/consul:ro
+      - /var/lib/consul/:/var/lib/consul/:rw
+
+## And now the webserver
+- name: Create the nginx container
+  docker_container:
+    name: nginx
+    image: nginx
+    state: started
+    network_mode: host
+# Check it works
+#root@tmaurice-test:~# dig webserver.service.consul @127.0.0.1 -p 8600
+#
+#; <<>> DiG 9.16.22-Debian <<>> webserver.service.consul @127.0.0.1 -p 8600
+#;; global options: +cmd
+#;; Got answer:
+#;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 9363
+#;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+#;; WARNING: recursion requested but not available
+#
+#;; OPT PSEUDOSECTION:
+#; EDNS: version: 0, flags:; udp: 4096
+#;; QUESTION SECTION:
+#;webserver.service.consul.      IN      A
+#
+#;; ANSWER SECTION:
+#webserver.service.consul. 0     IN      A       192.168.122.248
+#
+#;; Query time: 4 msec
+#;; SERVER: 127.0.0.1#8600(127.0.0.1)
+#;; WHEN: Wed Jan 12 09:49:58 GMT 2022
+#;; MSG SIZE  rcvd: 69

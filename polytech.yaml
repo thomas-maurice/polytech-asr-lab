@@ -4,3 +4,9 @@
     # installs the `base` role onto the targetted host
     - role: base
       tags: base
+    - role: ssh
+      tags: ssh
+    - role: geerlingguy.docker
+      tags: docker
+    - role: consul
+      tags: consul
