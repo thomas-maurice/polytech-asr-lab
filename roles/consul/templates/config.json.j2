@@ -1,0 +1,28 @@
+{
+  "data_dir": "/var/lib/consul",
+  "log_level": "INFO",
+  "server": {{ consul_server }},
+  "datacenter": "{{ consul_datacenter }}",
+  "bind_addr": "0.0.0.0",
+  "client_addr": "0.0.0.0",
+  "advertise_addr": "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}",
+  "addresses": {
+    "http": "0.0.0.0",
+    "https": "0.0.0.0",
+    "dns": "0.0.0.0"
+  },
+  "ui": true,
+  "ports": {
+    "dns": 8600,
+    "http": 8500,
+    "https": -1,
+    "serf_lan": 8301,
+    "serf_wan": 8302,
+    "server": 8300
+  },
+  "domain": "consul",
+  "bootstrap": {{ consul_bootstrap }},
+  "bootstrap_expect": {{ consul_servers_join|length + 1 }},
+  "retry_interval": "30s",
+  "retry_join": {{ consul_servers_join }}
+}

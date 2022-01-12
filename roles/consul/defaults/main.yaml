@@ -1,0 +1,19 @@
+consul_datacenter: polytech
+consul_services: []
+# must be a string "true" or "false"
+# with quotation because python boolean
+# interpolation is stupid
+consul_server: "true"
+consul_service_name: "webserver"
+consul_service_port: 80
+consul_bootstrap_expect: 1
+# must be a string "true" or "false"
+# with quotation because python boolean
+# interpolation is stupid
+# Only *one* of the servers, accross the whole cluster
+# should have this to true
+consul_bootstrap: "true"
+# Consul servers to join
+consul_servers_join: []
+#  - 1.2.3.4
+#  - 2.3.4.5

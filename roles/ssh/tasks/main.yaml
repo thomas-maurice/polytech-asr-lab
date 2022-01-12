@@ -1,0 +1,16 @@
+---
+- name: "creates the .ssh root directory"
+  file:
+    path: "/root/.ssh"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: "install root SSH keys"
+  template:
+    src: authorized_keys.j2
+    dest: /root/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: 0600
